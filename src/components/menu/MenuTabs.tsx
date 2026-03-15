@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import MenuCardGrid from "./MenuCardGrid";
 import MenuCard from "./MenuCard";
 import type { SeedMenuItem, SeedCategory } from "@/lib/seed-data";
@@ -25,12 +25,24 @@ export default function MenuTabs({
   const [randomPick, setRandomPick] = useState<SeedMenuItem | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
 
+  const tabsNavRef = useRef<HTMLElement>(null);
+
   const activeItems = menuItems.filter(
     (item) => item.category === activeCategory
   );
   const activeCat = categories.find((c) => c.id === activeCategory);
+  const activeIndex = categories.findIndex((c) => c.id === activeCategory);
+  const prevCat = activeIndex > 0 ? categories[activeIndex - 1] : null;
+  const nextCat = activeIndex < categories.length - 1 ? categories[activeIndex + 1] : null;
   const desc =
     activeCat && (locale === "sv" ? activeCat.description_sv : activeCat.description_en);
+
+  const switchCategory = useCallback((catId: string) => {
+    setActiveCategory(catId);
+    setRandomPick(null);
+    // Scroll the sticky tabs into view so user sees the new category
+    tabsNavRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, []);
 
   // Pick a random item from all "real food" categories
   const pickRandom = useCallback(() => {
@@ -64,6 +76,7 @@ export default function MenuTabs({
     <div>
       {/* Category tabs + random button */}
       <nav
+        ref={tabsNavRef}
         className="sticky top-16 z-40 bg-parchment/95 sticky-header-blur py-3 border-b border-parchment-dark"
         role="tablist"
         aria-label={locale === "sv" ? "Menykategorier" : "Menu categories"}
@@ -78,10 +91,7 @@ export default function MenuTabs({
                   role="tab"
                   aria-selected={isActive}
                   aria-controls={`panel-${cat.id}`}
-                  onClick={() => {
-                    setActiveCategory(cat.id);
-                    setRandomPick(null);
-                  }}
+                  onClick={() => switchCategory(cat.id)}
                   className={`font-body text-xs font-medium px-3 py-1.5 rounded-full transition-colors whitespace-nowrap shrink-0 ${
                     isActive
                       ? "bg-espresso text-parchment"
@@ -210,6 +220,56 @@ export default function MenuTabs({
           {activeItems.length}{" "}
           {locale === "sv" ? "rätter" : "items"}
         </p>
+
+        {/* Bottom category navigation */}
+        <div className="mt-8 pt-6 border-t border-parchment-dark">
+          <div className="flex items-center justify-between gap-2">
+            {/* Previous category */}
+            {prevCat ? (
+              <button
+                onClick={() => switchCategory(prevCat.id)}
+                className="flex items-center gap-1.5 font-body text-sm text-smoke hover:text-espresso transition-colors group min-w-0"
+              >
+                <svg className="w-4 h-4 shrink-0 transition-transform group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+                <span className="max-w-[100px] sm:max-w-none truncate">
+                  {locale === "sv" ? prevCat.title_sv : prevCat.title_en}
+                </span>
+              </button>
+            ) : (
+              <div />
+            )}
+
+            {/* Scroll to top / all categories */}
+            <button
+              onClick={() => tabsNavRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+              className="flex items-center gap-1.5 font-body text-xs text-smoke/60 hover:text-espresso transition-colors shrink-0"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 14h4v4H4zM14 14h4v4h-4zM4 4h4v4H4zM14 4h4v4h-4z" />
+              </svg>
+              {locale === "sv" ? "Alla kategorier" : "All categories"}
+            </button>
+
+            {/* Next category */}
+            {nextCat ? (
+              <button
+                onClick={() => switchCategory(nextCat.id)}
+                className="flex items-center gap-1.5 font-body text-sm text-smoke hover:text-espresso transition-colors group min-w-0"
+              >
+                <span className="max-w-[100px] sm:max-w-none truncate text-right">
+                  {locale === "sv" ? nextCat.title_sv : nextCat.title_en}
+                </span>
+                <svg className="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            ) : (
+              <div />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
