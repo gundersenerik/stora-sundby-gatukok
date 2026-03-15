@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -21,13 +21,25 @@ export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
-    <header className="sticky top-0 z-50 bg-charcoal/95 backdrop-blur-sm">
-      <nav className="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 bg-charcoal/95 sticky-header-blur pt-[env(safe-area-inset-top)]">
+      <nav className="max-w-6xl mx-auto px-3 sm:px-4 flex items-center justify-between h-16">
         {/* Logo / Brand */}
         <a
           href={locale === "sv" ? "/" : "/en"}
-          className="font-heading text-lg text-cream hover:text-gold transition-colors"
+          className="font-heading text-base sm:text-lg text-cream hover:text-gold transition-colors whitespace-nowrap"
         >
           Stora Sundby Gatukök
         </a>
@@ -36,7 +48,7 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => {
             const href = locale === "sv" ? item.sv : item.en;
-            const isActive = pathname === item.sv || pathname === item.en;
+            const isActive = pathname === item.sv || (pathname as string) === item.en;
             return (
               <a
                 key={item.key}
@@ -58,7 +70,7 @@ export default function Header() {
           <LanguageSwitcher />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-cream p-2"
+            className="text-cream p-3"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
           >
@@ -98,7 +110,7 @@ export default function Header() {
         <div className="px-4 py-4 space-y-1">
           {navItems.map((item) => {
             const href = locale === "sv" ? item.sv : item.en;
-            const isActive = pathname === item.sv || pathname === item.en;
+            const isActive = pathname === item.sv || (pathname as string) === item.en;
             return (
               <a
                 key={item.key}

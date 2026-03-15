@@ -39,12 +39,12 @@ export default async function ContactPage({
         {t("title")}
       </h1>
 
-      <div className="grid md:grid-cols-2 gap-12">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12">
         {/* Contact info */}
         <div className="space-y-6">
           {/* Phone */}
           <div>
-            <h2 className="font-heading text-lg text-charcoal mb-1">{t("phone")}</h2>
+            <h2 className="font-heading text-base sm:text-lg text-charcoal mb-1">{t("phone")}</h2>
             <a
               href={`tel:${RESTAURANT.phoneIntl}`}
               className="text-red text-lg font-body font-semibold hover:text-red-dark transition-colors"
@@ -55,7 +55,7 @@ export default async function ContactPage({
 
           {/* Address */}
           <div>
-            <h2 className="font-heading text-lg text-charcoal mb-1">{t("address")}</h2>
+            <h2 className="font-heading text-base sm:text-lg text-charcoal mb-1">{t("address")}</h2>
             <p className="text-charcoal-light font-body">
               {RESTAURANT.address.street}
               <br />
@@ -73,7 +73,7 @@ export default async function ContactPage({
 
           {/* Opening hours */}
           <div>
-            <h2 className="font-heading text-lg text-charcoal mb-2">{t("openingHours")}</h2>
+            <h2 className="font-heading text-base sm:text-lg text-charcoal mb-2">{t("openingHours")}</h2>
             <div className="space-y-2">
               <div className="bg-cream-dark rounded-lg p-4">
                 <p className="text-charcoal-light text-sm font-body">
@@ -92,7 +92,7 @@ export default async function ContactPage({
 
           {/* Service area */}
           <div>
-            <h2 className="font-heading text-lg text-charcoal mb-2">{t("serviceArea")}</h2>
+            <h2 className="font-heading text-base sm:text-lg text-charcoal mb-2">{t("serviceArea")}</h2>
             <p className="text-charcoal-light text-sm font-body mb-2">
               {t("serviceAreaDescription")}
             </p>

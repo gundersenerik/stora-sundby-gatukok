@@ -21,6 +21,30 @@ body {
   background: var(--color-cream);
   color: var(--color-charcoal);
   font-family: var(--font-body), system-ui, sans-serif;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile touch optimizations */
+a, button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Dynamic viewport height utilities (dvh with vh fallback) */
+.min-h-hero { min-height: 80vh; min-height: 80dvh; }
+.min-h-order { min-height: 70vh; min-height: 70dvh; }
+
+/* Hide scrollbar for horizontal scroll containers */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* Safari backdrop-filter fallback (CSS vars can silently fail) */
+.sticky-header-blur {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 
 /* Skip to content link */

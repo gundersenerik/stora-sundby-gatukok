@@ -6,9 +6,9 @@ export const RESTAURANT = {
   phone: "016-620 23",
   phoneIntl: "+4616620023",
   address: {
-    street: "Stora Sundby",
-    postalCode: "641 96",
-    city: "Katrineholm",
+    street: "Alberga Centrum 1",
+    postalCode: "635 34",
+    city: "Stora Sundby",
   },
   coordinates: {
     latitude: 59.2791243,

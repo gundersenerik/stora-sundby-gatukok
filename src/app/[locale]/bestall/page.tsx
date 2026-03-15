@@ -41,10 +41,10 @@ export default async function OrderPage({
       <p className="text-charcoal-light mb-8">{t("subtitle")}</p>
 
       {/* eOrder iframe embed */}
-      <div className="w-full min-h-[80vh] relative rounded-lg overflow-hidden border border-cream-dark">
+      <div className="w-full min-h-order sm:min-h-[80vh] relative rounded-lg overflow-hidden border border-cream-dark">
         <iframe
           src={EORDER_URL}
-          className="w-full h-full min-h-[80vh] border-0"
+          className="w-full h-full min-h-order sm:min-h-[80vh] border-0"
           title={t("title")}
           allow="payment"
           loading="lazy"
@@ -53,17 +53,15 @@ export default async function OrderPage({
       </div>
 
       {/* Fallback link */}
-      <p className="text-center mt-4 text-charcoal-light text-sm">
+      <a
+        href={EORDER_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block py-3 mt-4 text-center text-charcoal-light text-sm hover:text-red transition-colors"
+      >
         {t("fallbackText")}{" "}
-        <a
-          href={EORDER_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-red underline hover:text-red-dark transition-colors"
-        >
-          {t("fallbackLink")}
-        </a>
-      </p>
+        <span className="text-red underline">{t("fallbackLink")}</span>
+      </a>
     </main>
   );
 }
