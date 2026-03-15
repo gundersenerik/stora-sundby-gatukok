@@ -16,7 +16,7 @@ export default function DietaryBadge({
   const label = labels[type]?.[locale] || type;
 
   return (
-    <span className="inline-block bg-olive/10 text-olive text-xs font-body font-medium px-2 py-0.5 rounded">
+    <span className="inline-block bg-sage/10 text-sage text-xs font-body font-medium px-2 py-0.5 rounded">
       {label}
     </span>
   );

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
+import OpenStatus from "@/components/ui/OpenStatus";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -34,18 +35,21 @@ export default function Header() {
   }, [mobileMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 bg-charcoal/95 sticky-header-blur pt-[env(safe-area-inset-top)]">
-      <nav className="max-w-6xl mx-auto px-3 sm:px-4 flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 bg-espresso/97 sticky-header-blur pt-[env(safe-area-inset-top)]">
+      <nav className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
         {/* Logo / Brand */}
-        <a
-          href={locale === "sv" ? "/" : "/en"}
-          className="font-heading text-base sm:text-lg text-cream hover:text-gold transition-colors whitespace-nowrap"
-        >
-          Stora Sundby Gatukök
-        </a>
+        <div className="flex items-center gap-3">
+          <a
+            href={locale === "sv" ? "/" : "/en"}
+            className="font-heading text-lg sm:text-xl text-parchment hover:text-wheat transition-colors whitespace-nowrap italic"
+          >
+            Stora Sundby
+          </a>
+          <OpenStatus locale={locale} showText={false} />
+        </div>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-7">
           {navItems.map((item) => {
             const href = locale === "sv" ? item.sv : item.en;
             const isActive = pathname === item.sv || (pathname as string) === item.en;
@@ -54,11 +58,16 @@ export default function Header() {
                 key={item.key}
                 href={href}
                 className={cn(
-                  "font-body text-sm uppercase tracking-wider transition-colors",
-                  isActive ? "text-gold" : "text-cream/70 hover:text-cream"
+                  "font-body text-sm transition-colors relative py-1",
+                  isActive
+                    ? "text-wheat"
+                    : "text-parchment/60 hover:text-parchment"
                 )}
               >
                 {t(item.key)}
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-px bg-wheat/60" />
+                )}
               </a>
             );
           })}
@@ -70,7 +79,7 @@ export default function Header() {
           <LanguageSwitcher />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-cream p-3"
+            className="text-parchment p-3"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
           >
@@ -84,14 +93,14 @@ export default function Header() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M6 18L18 6M6 6l12 12"
                 />
               ) : (
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               )}
@@ -100,14 +109,16 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — full-screen overlay */}
       <div
         className={cn(
-          "md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-charcoal",
-          mobileMenuOpen ? "max-h-96" : "max-h-0"
+          "md:hidden fixed inset-0 top-16 bg-espresso z-40 transition-all duration-300 ease-in-out flex flex-col items-center justify-center",
+          mobileMenuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         )}
       >
-        <div className="px-4 py-4 space-y-1">
+        <div className="flex flex-col items-center gap-6">
           {navItems.map((item) => {
             const href = locale === "sv" ? item.sv : item.en;
             const isActive = pathname === item.sv || (pathname as string) === item.en;
@@ -117,14 +128,17 @@ export default function Header() {
                 href={href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  "block py-3 font-body text-sm uppercase tracking-wider transition-colors",
-                  isActive ? "text-gold" : "text-cream/70 hover:text-cream"
+                  "font-heading text-2xl italic transition-colors",
+                  isActive ? "text-wheat" : "text-parchment/60 hover:text-parchment"
                 )}
               >
                 {t(item.key)}
               </a>
             );
           })}
+          <div className="mt-4 pt-4 border-t border-parchment/10">
+            <OpenStatus locale={locale} showText={true} className="text-parchment/60" />
+          </div>
         </div>
       </div>
     </header>

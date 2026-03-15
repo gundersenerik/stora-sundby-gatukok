@@ -4,7 +4,9 @@ import { SITE_URL } from "@/lib/constants";
 import { menuItems } from "@/lib/seed-data";
 import { RestaurantJsonLd } from "@/components/seo/JsonLd";
 import DietaryBadge from "@/components/ui/DietaryBadge";
-import FadeIn from "@/components/ui/FadeIn";
+import TimeGreeting from "@/components/ui/TimeGreeting";
+import OpenStatus from "@/components/ui/OpenStatus";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export async function generateMetadata({
   params,
@@ -44,103 +46,196 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Home" });
 
-  const popularItems = menuItems.filter((item) => item.isPopular).slice(0, 6);
+  const popularItems = menuItems.filter((item) => item.isPopular).slice(0, 3);
 
   return (
     <main id="main-content">
       <RestaurantJsonLd locale={locale} />
 
-      {/* Hero */}
-      <section className="min-h-hero flex items-center justify-center bg-charcoal text-cream px-4">
+      {/* ═══ Hero ═══ */}
+      <section className="min-h-hero flex flex-col items-center justify-center bg-espresso text-parchment px-4 relative">
         <div className="max-w-3xl text-center">
-          <h1 className="font-heading text-3xl sm:text-4xl md:text-6xl mb-6 text-cream">
-            {t("heroTitle")}
+          {/* Time-aware greeting */}
+          <TimeGreeting
+            locale={locale}
+            className="font-body text-sm tracking-widest text-wheat/70 uppercase mb-4 block"
+          />
+
+          {/* Restaurant name — big, warm, italic serif */}
+          <h1
+            className="font-heading italic text-parchment mb-6"
+            style={{ fontSize: "clamp(2.5rem, 7vw, 5rem)", lineHeight: 1.1 }}
+          >
+            Stora Sundby
+            <br />
+            <span className="text-wheat" style={{ fontSize: "0.55em" }}>
+              Gatukök
+            </span>
           </h1>
-          <p className="font-body text-lg md:text-xl text-cream-dark mb-8 max-w-2xl mx-auto">
-            {t("heroSubtitle")}
+
+          {/* Tagline */}
+          <p className="font-body text-parchment/60 text-sm sm:text-base mb-3 max-w-md mx-auto">
+            {locale === "sv"
+              ? "Alberga Centrum 1, Stora Sundby"
+              : "Alberga Centrum 1, Stora Sundby"}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+          {/* Open status */}
+          <div className="mb-8">
+            <OpenStatus locale={locale} showText={true} className="text-parchment/50" />
+          </div>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href={locale === "sv" ? "/bestall" : "/en/order"}
-              className="w-full sm:w-auto inline-block bg-red text-white font-body font-semibold text-sm uppercase tracking-wider px-8 py-4 rounded-lg hover:bg-red-dark transition-colors text-center"
+              className="btn-primary w-full sm:w-auto"
             >
               {t("orderNow")}
             </a>
             <a
               href={locale === "sv" ? "/meny" : "/en/menu"}
-              className="w-full sm:w-auto inline-block border-2 border-gold text-gold font-body font-semibold text-sm uppercase tracking-wider px-8 py-4 rounded-lg hover:bg-gold hover:text-charcoal transition-colors text-center"
+              className="btn-ghost w-full sm:w-auto"
             >
               {t("viewMenu")}
             </a>
           </div>
         </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+          <svg
+            className="w-5 h-5 text-parchment/30"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
       </section>
 
-      {/* Service area callout */}
-      <section className="bg-cream-dark py-4 text-center">
-        <p className="font-body text-charcoal-light text-sm">
-          {t("serviceAreas")}
-        </p>
+      {/* ═══ Philosophy strip ═══ */}
+      <section className="bg-parchment-dark py-16 md:py-20 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="font-heading text-xl sm:text-2xl md:text-3xl text-espresso italic leading-relaxed">
+            {locale === "sv"
+              ? "Degen jäser varje morgon. Såsen kokar långsamt. Osten smälter perfekt."
+              : "The dough rises every morning. The sauce simmers slowly. The cheese melts perfectly."}
+          </p>
+          <p className="font-body text-smoke text-sm mt-4">
+            {locale === "sv"
+              ? "Vissa saker tar tid — och det smakar man."
+              : "Some things take time — and you can taste it."}
+          </p>
+        </div>
       </section>
 
-      {/* Popular items */}
-      <FadeIn>
-      <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="font-heading text-2xl md:text-3xl text-charcoal mb-8">
-          {t("popularItems")}
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {popularItems.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-xl p-6 shadow-sm border border-cream-dark hover:shadow-md transition-shadow"
-            >
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-body font-semibold text-charcoal text-lg">
+      {/* ═══ Popular items ═══ */}
+      <ScrollReveal>
+        <section className="max-w-4xl mx-auto px-4 py-20 md:py-28">
+          <div className="text-center mb-12">
+            <h2 className="font-heading text-2xl md:text-3xl text-espresso italic">
+              {t("popularItems")}
+            </h2>
+            <div className="w-12 h-px bg-wheat mx-auto mt-4" />
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-8 md:gap-12">
+            {popularItems.map((item) => (
+              <div key={item.id} className="text-center">
+                <h3 className="font-heading text-lg text-espresso italic mb-2">
                   {locale === "sv" ? item.name_sv : item.name_en}
                 </h3>
-                <span className="font-body font-semibold text-red text-lg whitespace-nowrap ml-2 shrink-0">
+                <p className="text-smoke text-sm font-body mb-3 leading-relaxed">
+                  {locale === "sv" ? item.description_sv : item.description_en}
+                </p>
+                {item.dietary.length > 0 && (
+                  <div className="flex gap-1 justify-center mb-3">
+                    {item.dietary.map((d) => (
+                      <DietaryBadge key={d} type={d} locale={locale} />
+                    ))}
+                  </div>
+                )}
+                <p className="font-body text-ember font-semibold tabular-nums">
                   {item.price} kr
-                </span>
+                </p>
               </div>
-              <p className="text-charcoal-light text-sm font-body mb-3">
-                {locale === "sv" ? item.description_sv : item.description_en}
-              </p>
-              {item.dietary.length > 0 && (
-                <div className="flex gap-1 flex-wrap">
-                  {item.dietary.map((d) => (
-                    <DietaryBadge key={d} type={d} locale={locale} />
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="text-center mt-10">
-          <a
-            href={locale === "sv" ? "/meny" : "/en/menu"}
-            className="inline-block border-2 border-charcoal text-charcoal font-body font-semibold text-sm uppercase tracking-wider px-8 py-3 rounded-lg hover:bg-charcoal hover:text-cream transition-colors"
-          >
-            {t("viewMenu")}
-          </a>
-        </div>
-      </section>
-      </FadeIn>
+            ))}
+          </div>
 
-      {/* Order CTA banner */}
-      <section className="bg-red py-12 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-heading text-2xl md:text-3xl text-white mb-4">
-            {locale === "sv" ? "Beställ för avhämtning" : "Order for pickup"}
+          <div className="text-center mt-14">
+            <a
+              href={locale === "sv" ? "/meny" : "/en/menu"}
+              className="btn-ghost"
+            >
+              {locale === "sv" ? "Se hela menyn" : "View full menu"}
+            </a>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      {/* ═══ Story teaser ═══ */}
+      <ScrollReveal>
+        <section className="bg-parchment-dark py-16 md:py-24 px-4">
+          <div className="max-w-4xl mx-auto grid md:grid-cols-5 gap-8 md:gap-12 items-center">
+            <div className="md:col-span-3">
+              <h2 className="font-heading text-xl md:text-2xl text-espresso italic mb-4">
+                {locale === "sv"
+                  ? "Din pizzeria i hjärtat av Södermanland"
+                  : "Your pizzeria in the heart of Södermanland"}
+              </h2>
+              <p className="text-smoke font-body leading-relaxed mb-4">
+                {locale === "sv"
+                  ? "Vi har serverat pizza, kebab, hamburgare och sallader till hungriga kunder i Stora Sundby och omnejd i många år. Allt lagas färskt med kvalitetsingredienser."
+                  : "We've been serving pizza, kebab, burgers and salads to hungry customers in Stora Sundby and the surrounding area for many years. Everything is made fresh with quality ingredients."}
+              </p>
+              <a
+                href={locale === "sv" ? "/om-oss" : "/en/about"}
+                className="font-body text-sm text-ember hover:text-ember-dark transition-colors inline-flex items-center gap-1"
+              >
+                {locale === "sv" ? "Läs mer om oss" : "Read more about us"}
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <div className="md:col-span-2 flex justify-center">
+              {/* Decorative element — service area badge cluster */}
+              <div className="text-center">
+                <p className="font-body text-xs text-smoke/60 uppercase tracking-widest mb-3">
+                  {locale === "sv" ? "Vi serverar" : "We serve"}
+                </p>
+                <p className="font-heading text-sm italic text-smoke leading-loose">
+                  Katrineholm · Eskilstuna · Kungsör
+                  <br />
+                  Julita · Västermo · Hjälmaresund
+                  <br />
+                  Lista · Gillberga
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      {/* ═══ Order CTA ═══ */}
+      <section className="bg-espresso py-20 md:py-28 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="font-heading text-3xl md:text-4xl text-parchment italic mb-4">
+            {locale === "sv" ? "Hungrig?" : "Hungry?"}
           </h2>
-          <p className="font-body text-white/80 mb-6">
+          <p className="font-body text-parchment/50 mb-8">
             {locale === "sv"
-              ? "Snabbt och smidigt — beställ online och hämta hos oss"
-              : "Quick and easy — order online and pick up at our location"}
+              ? "Beställ online för smidig avhämtning"
+              : "Order online for convenient pickup"}
           </p>
           <a
             href={locale === "sv" ? "/bestall" : "/en/order"}
-            className="inline-block bg-white text-red font-body font-semibold text-sm uppercase tracking-wider px-8 py-4 rounded-lg hover:bg-cream transition-colors"
+            className="btn-primary"
           >
             {t("orderNow")}
           </a>

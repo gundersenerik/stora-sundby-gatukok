@@ -1,17 +1,16 @@
 import type { Viewport } from "next";
-import { Archivo_Black, Work_Sans } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 
-const archivoBlack = Archivo_Black({
-  weight: "400",
+const playfairDisplay = Playfair_Display({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-archivo-black",
+  variable: "--font-playfair-display",
   display: "swap",
 });
 
-const workSans = Work_Sans({
+const inter = Inter({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-work-sans",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -35,9 +34,9 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body
-        className={`${archivoBlack.variable} ${workSans.variable} antialiased`}
+        className={`${playfairDisplay.variable} ${inter.variable} antialiased`}
       >
-        <div className="overflow-x-hidden w-full">{children}</div>
+        <div className="overflow-x-hidden w-full grain-overlay">{children}</div>
       </body>
     </html>
   );

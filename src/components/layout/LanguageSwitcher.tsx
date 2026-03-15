@@ -16,7 +16,7 @@ export default function LanguageSwitcher() {
   return (
     <a
       href={href}
-      className="font-body text-sm font-semibold uppercase tracking-wider px-3 py-2 rounded border border-current opacity-70 hover:opacity-100 transition-opacity"
+      className="font-body text-xs font-medium px-2.5 py-1.5 rounded-sm border border-parchment/20 text-parchment/50 hover:text-parchment hover:border-parchment/40 transition-colors"
     >
       {label}
     </a>

@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { SITE_URL, RESTAURANT } from "@/lib/constants";
+import OpenStatus from "@/components/ui/OpenStatus";
 
 export async function generateMetadata({
   params,
@@ -34,20 +35,25 @@ export default async function ContactPage({
   const t = await getTranslations({ locale, namespace: "Contact" });
 
   return (
-    <main id="main-content" className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="font-heading text-3xl md:text-4xl text-charcoal mb-8">
-        {t("title")}
-      </h1>
+    <main id="main-content" className="max-w-4xl mx-auto px-4 py-12 md:py-20">
+      <div className="text-center mb-12">
+        <h1 className="font-heading text-3xl md:text-4xl text-espresso italic mb-2">
+          {t("title")}
+        </h1>
+        <OpenStatus locale={locale} showText={true} className="text-smoke" />
+      </div>
 
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-16">
         {/* Contact info */}
-        <div className="space-y-6">
-          {/* Phone */}
+        <div className="space-y-8">
+          {/* Phone — prominent */}
           <div>
-            <h2 className="font-heading text-base sm:text-lg text-charcoal mb-1">{t("phone")}</h2>
+            <p className="font-body text-xs text-smoke/60 uppercase tracking-widest mb-2">
+              {t("phone")}
+            </p>
             <a
               href={`tel:${RESTAURANT.phoneIntl}`}
-              className="text-red text-lg font-body font-semibold hover:text-red-dark transition-colors"
+              className="font-heading text-2xl md:text-3xl italic text-ember hover:text-ember-dark transition-colors"
             >
               {RESTAURANT.phone}
             </a>
@@ -55,8 +61,10 @@ export default async function ContactPage({
 
           {/* Address */}
           <div>
-            <h2 className="font-heading text-base sm:text-lg text-charcoal mb-1">{t("address")}</h2>
-            <p className="text-charcoal-light font-body">
+            <p className="font-body text-xs text-smoke/60 uppercase tracking-widest mb-2">
+              {t("address")}
+            </p>
+            <p className="text-espresso font-body leading-relaxed">
               {RESTAURANT.address.street}
               <br />
               {RESTAURANT.address.postalCode} {RESTAURANT.address.city}
@@ -65,67 +73,70 @@ export default async function ContactPage({
               href={`https://www.google.com/maps/dir/?api=1&destination=${RESTAURANT.coordinates.latitude},${RESTAURANT.coordinates.longitude}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-red text-sm font-body hover:text-red-dark transition-colors mt-1 inline-block"
+              className="text-ember text-sm font-body hover:text-ember-dark transition-colors mt-2 inline-flex items-center gap-1"
             >
-              {t("getDirections")} →
+              {t("getDirections")}
+              <span aria-hidden="true">→</span>
             </a>
           </div>
 
           {/* Opening hours */}
           <div>
-            <h2 className="font-heading text-base sm:text-lg text-charcoal mb-2">{t("openingHours")}</h2>
-            <div className="space-y-2">
-              <div className="bg-cream-dark rounded-lg p-4">
-                <p className="text-charcoal-light text-sm font-body">
-                  {locale === "sv" ? "Vintertid (sep–apr)" : "Winter (Sep–Apr)"}
+            <p className="font-body text-xs text-smoke/60 uppercase tracking-widest mb-3">
+              {t("openingHours")}
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-parchment-dark rounded-sm p-4">
+                <p className="text-smoke text-xs font-body mb-1">
+                  {locale === "sv" ? "Sep–Apr" : "Sep–Apr"}
                 </p>
-                <p className="text-charcoal font-body font-semibold">11:00 – 20:00</p>
+                <p className="text-espresso font-heading text-lg italic">
+                  11–20
+                </p>
               </div>
-              <div className="bg-cream-dark rounded-lg p-4">
-                <p className="text-charcoal-light text-sm font-body">
-                  {locale === "sv" ? "Sommartid (maj–aug)" : "Summer (May–Aug)"}
+              <div className="bg-parchment-dark rounded-sm p-4">
+                <p className="text-smoke text-xs font-body mb-1">
+                  {locale === "sv" ? "Maj–Aug" : "May–Aug"}
                 </p>
-                <p className="text-charcoal font-body font-semibold">11:00 – 21:00</p>
+                <p className="text-espresso font-heading text-lg italic">
+                  11–21
+                </p>
               </div>
             </div>
           </div>
 
           {/* Service area */}
           <div>
-            <h2 className="font-heading text-base sm:text-lg text-charcoal mb-2">{t("serviceArea")}</h2>
-            <p className="text-charcoal-light text-sm font-body mb-2">
-              {t("serviceAreaDescription")}
+            <p className="font-body text-xs text-smoke/60 uppercase tracking-widest mb-2">
+              {t("serviceArea")}
             </p>
-            <div className="flex flex-wrap gap-2">
-              {RESTAURANT.serviceAreas.map((area) => (
-                <span
-                  key={area}
-                  className="bg-cream-dark text-charcoal-light text-sm font-body px-3 py-1 rounded-full"
-                >
-                  {area}
-                </span>
-              ))}
-            </div>
+            <p className="text-smoke text-sm font-body leading-relaxed">
+              {RESTAURANT.serviceAreas.join(", ")}
+            </p>
           </div>
         </div>
 
         {/* Map */}
         <div>
-          <div className="bg-cream-dark rounded-lg overflow-hidden aspect-square md:aspect-auto md:h-full min-h-[300px] flex items-center justify-center">
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${RESTAURANT.coordinates.latitude},${RESTAURANT.coordinates.longitude}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-charcoal-light hover:text-red transition-colors text-center p-8"
-            >
-              <svg className="w-12 h-12 mx-auto mb-4 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${RESTAURANT.coordinates.latitude},${RESTAURANT.coordinates.longitude}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block bg-parchment-dark rounded-sm overflow-hidden aspect-square md:aspect-auto md:h-full min-h-[300px] relative group hover:bg-parchment-dark/80 transition-colors"
+          >
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+              <svg
+                className="w-10 h-10 text-smoke/30 mb-4 group-hover:text-ember transition-colors"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
-              <p className="font-body font-semibold">
+              <p className="font-heading text-sm italic text-smoke group-hover:text-espresso transition-colors">
                 {locale === "sv" ? "Öppna i Google Maps" : "Open in Google Maps"}
               </p>
-            </a>
-          </div>
+            </div>
+          </a>
         </div>
       </div>
     </main>

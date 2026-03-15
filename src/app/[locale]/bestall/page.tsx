@@ -35,13 +35,15 @@ export default async function OrderPage({
 
   return (
     <main id="main-content" className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="font-heading text-3xl md:text-4xl text-charcoal mb-4">
-        {t("title")}
-      </h1>
-      <p className="text-charcoal-light mb-8">{t("subtitle")}</p>
+      <div className="text-center mb-8">
+        <h1 className="font-heading text-3xl md:text-4xl text-espresso italic mb-2">
+          {t("title")}
+        </h1>
+        <p className="text-smoke font-body text-sm">{t("subtitle")}</p>
+      </div>
 
       {/* eOrder iframe embed */}
-      <div className="w-full min-h-order sm:min-h-[80vh] relative rounded-lg overflow-hidden border border-cream-dark">
+      <div className="w-full min-h-order sm:min-h-[80vh] relative rounded-sm overflow-hidden border border-parchment-dark">
         <iframe
           src={EORDER_URL}
           className="w-full h-full min-h-order sm:min-h-[80vh] border-0"
@@ -57,10 +59,10 @@ export default async function OrderPage({
         href={EORDER_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="block py-3 mt-4 text-center text-charcoal-light text-sm hover:text-red transition-colors"
+        className="block py-3 mt-4 text-center text-smoke text-sm font-body hover:text-ember transition-colors"
       >
         {t("fallbackText")}{" "}
-        <span className="text-red underline">{t("fallbackLink")}</span>
+        <span className="text-ember underline">{t("fallbackLink")}</span>
       </a>
     </main>
   );

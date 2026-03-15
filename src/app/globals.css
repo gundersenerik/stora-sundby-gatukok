@@ -1,25 +1,28 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-cream: #FFF8F0;
-  --color-cream-dark: #f5ede4;
-  --color-red: #C41E1E;
-  --color-red-dark: #a01818;
-  --color-red-light: #E84C3D;
-  --color-gold: #D4A843;
-  --color-gold-dark: #b8912f;
-  --color-charcoal: #2D2A26;
-  --color-charcoal-light: #6B6560;
-  --color-olive: #5C6B4E;
-  --color-olive-light: #7a8d6a;
+  /* ── Warm palette ── */
+  --color-parchment: #FAF6F1;
+  --color-parchment-dark: #EDE6DA;
+  --color-ember: #B84233;
+  --color-ember-dark: #943529;
+  --color-ember-light: #D4614F;
+  --color-wheat: #C9A96E;
+  --color-wheat-dark: #A88B4A;
+  --color-espresso: #2A2118;
+  --color-smoke: #7A6F63;
+  --color-sage: #6B7F5E;
+  --color-sage-light: #8BA37B;
 
-  --font-heading: var(--font-archivo-black);
-  --font-body: var(--font-work-sans);
+  /* ── Typography ── */
+  --font-heading: var(--font-playfair-display);
+  --font-body: var(--font-inter);
 }
 
+/* ── Base ── */
 body {
-  background: var(--color-cream);
-  color: var(--color-charcoal);
+  background: var(--color-parchment);
+  color: var(--color-espresso);
   font-family: var(--font-body), system-ui, sans-serif;
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
@@ -27,48 +30,117 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Mobile touch optimizations */
+/* ── Mobile touch optimizations ── */
 a, button {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Dynamic viewport height utilities (dvh with vh fallback) */
-.min-h-hero { min-height: 80vh; min-height: 80dvh; }
+/* ── Dynamic viewport height (dvh with vh fallback) ── */
+.min-h-hero { min-height: 100vh; min-height: 100dvh; }
 .min-h-order { min-height: 70vh; min-height: 70dvh; }
 
-/* Hide scrollbar for horizontal scroll containers */
+/* ── Scrollbar hiding for horizontal scroll ── */
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
-/* Safari backdrop-filter fallback (CSS vars can silently fail) */
+/* ── Safari backdrop-filter fallback ── */
 .sticky-header-blur {
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
 }
 
-/* Skip to content link */
+/* ── Skip to content ── */
 .skip-to-content {
   position: absolute;
   left: -9999px;
   top: 0;
   z-index: 100;
   padding: 0.5rem 1rem;
-  background: var(--color-red);
+  background: var(--color-ember);
   color: white;
   font-weight: 600;
   text-decoration: none;
 }
-
 .skip-to-content:focus {
   left: 0;
 }
 
-/* Scroll fade-in animation */
-@keyframes fadeInUp {
+/* ── Grain texture overlay ── */
+.grain-overlay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ── Dotted leader line for menu items ── */
+.menu-dots {
+  flex: 1;
+  border-bottom: 1.5px dotted var(--color-smoke);
+  opacity: 0.2;
+  margin-bottom: 0.2em;
+  min-width: 1rem;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-block;
+  background: var(--color-ember);
+  color: white;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  padding: 0.875rem 2rem;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 2px 8px rgba(184, 66, 51, 0);
+  text-align: center;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: var(--color-ember-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(184, 66, 51, 0.2);
+}
+
+.btn-ghost {
+  display: inline-block;
+  border: 1.5px solid var(--color-wheat);
+  color: var(--color-wheat);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  padding: 0.875rem 2rem;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-align: center;
+  text-decoration: none;
+}
+.btn-ghost:hover {
+  background: var(--color-wheat);
+  color: var(--color-espresso);
+  transform: translateY(-1px);
+}
+
+/* ── Scroll-driven reveal animation (Chrome/Safari 18+) ── */
+.reveal-on-scroll {
+  animation: fadeSlideIn linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 25%;
+}
+
+@keyframes fadeSlideIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(1.5rem);
   }
   to {
     opacity: 1;
@@ -76,19 +148,77 @@ a, button {
   }
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-  opacity: 0;
-}
-
-/* Respect reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .animate-fade-in-up {
+/* Fallback for browsers without scroll-driven animations */
+@supports not (animation-timeline: view()) {
+  .reveal-on-scroll {
     animation: none;
     opacity: 1;
     transform: none;
   }
+}
 
+/* ── Scroll progress bar for menu page ── */
+.scroll-progress {
+  position: fixed;
+  top: 64px; /* below header */
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, var(--color-wheat), var(--color-ember));
+  transform-origin: left;
+  z-index: 49;
+  animation: scaleProgress linear;
+  animation-timeline: scroll();
+}
+@keyframes scaleProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@supports not (animation-timeline: scroll()) {
+  .scroll-progress { display: none; }
+}
+
+/* ── Fade edges for horizontal scroll ── */
+.fade-edge-scroll {
+  mask-image: linear-gradient(to right, transparent, black 1rem, black calc(100% - 1rem), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 1rem, black calc(100% - 1rem), transparent);
+}
+
+/* ── Pulsing dot (open status) ── */
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(107, 127, 94, 0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(107, 127, 94, 0); }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ── Scroll indicator bounce ── */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+.scroll-indicator {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+/* ── Respect reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+  .pulse-dot {
+    animation: none !important;
+  }
+  .scroll-indicator {
+    animation: none !important;
+    opacity: 0.6;
+  }
+  .scroll-progress {
+    display: none;
+  }
   *,
   *::before,
   *::after {
