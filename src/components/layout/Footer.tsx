@@ -12,7 +12,7 @@ export default function Footer() {
   return (
     <footer className="bg-charcoal text-cream/70">
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {/* Brand + contact */}
           <div>
             <p className="font-heading text-xl text-cream mb-4">
@@ -68,7 +68,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-cream/10 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-body">
+        <div className="border-t border-cream/10 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 text-xs font-body">
           <p>
             &copy; {currentYear} {RESTAURANT.name}. {t("allRightsReserved")}.
           </p>

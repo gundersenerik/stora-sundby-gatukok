@@ -9,7 +9,7 @@ export default function NotFound() {
       className="min-h-[60vh] flex items-center justify-center px-4"
     >
       <div className="text-center">
-        <h1 className="font-heading text-4xl md:text-5xl text-charcoal mb-4">
+        <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl text-charcoal mb-4">
           404
         </h1>
         <p className="font-heading text-xl text-charcoal mb-2">

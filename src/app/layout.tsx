@@ -1,3 +1,4 @@
+import type { Viewport } from "next";
 import { Archivo_Black, Work_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -14,6 +15,18 @@ const workSans = Work_Sans({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
+export const metadata = {
+  other: {
+    "color-scheme": "light",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +37,7 @@ export default function RootLayout({
       <body
         className={`${archivoBlack.variable} ${workSans.variable} antialiased`}
       >
-        {children}
+        <div className="overflow-x-hidden w-full">{children}</div>
       </body>
     </html>
   );
