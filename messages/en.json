@@ -1,0 +1,83 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "menu": "Menu",
+    "order": "Order",
+    "contact": "Contact",
+    "dailySpecials": "Daily Specials",
+    "about": "About"
+  },
+  "Home": {
+    "heroTitle": "Welcome to Stora Sundby Gatukök",
+    "heroSubtitle": "Crispy pizza, juicy burgers and creamy kebab — made with love in the heart of Södermanland",
+    "orderNow": "Order Online",
+    "viewMenu": "View Menu",
+    "dailySpecials": "Daily Specials",
+    "popularItems": "Popular Items",
+    "serviceAreas": "Serving Katrineholm, Eskilstuna, Kungsör and surrounding areas"
+  },
+  "Menu": {
+    "title": "Our Menu",
+    "filterAll": "All",
+    "filterVegetarian": "Vegetarian",
+    "filterVegan": "Vegan",
+    "filterGlutenFree": "Gluten-Free",
+    "filterLactoseFree": "Lactose-Free",
+    "popular": "Popular",
+    "unavailable": "Unavailable"
+  },
+  "Order": {
+    "title": "Order Online",
+    "subtitle": "Order for pickup directly from our menu",
+    "fallbackText": "Can't see the order form?",
+    "fallbackLink": "Open ordering in a new window"
+  },
+  "Contact": {
+    "title": "Contact Us",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "openingHours": "Opening Hours",
+    "openNow": "Open now",
+    "closedNow": "Closed",
+    "serviceArea": "Our Area",
+    "serviceAreaDescription": "We serve customers in the following areas:",
+    "getDirections": "Get Directions"
+  },
+  "DailySpecials": {
+    "title": "Daily Specials",
+    "includedText": "Incl. salad & drink",
+    "noSpecials": ""
+  },
+  "About": {
+    "title": "About Us"
+  },
+  "Common": {
+    "currency": "kr",
+    "phone": "Phone",
+    "openingHours": "Opening Hours"
+  },
+  "Footer": {
+    "followUs": "Follow Us",
+    "allRightsReserved": "All rights reserved"
+  },
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist.",
+    "goHome": "Go to homepage"
+  },
+  "SEO": {
+    "homeTitle": "Stora Sundby Gatukök — Pizza, Kebab & Burgers near Katrineholm",
+    "homeDescription": "Pizzeria in Stora Sundby. Order pizza, kebab and burgers online for pickup. Serving Katrineholm, Eskilstuna, Kungsör and surrounding areas.",
+    "menuTitle": "Menu — Stora Sundby Gatukök | Pizza, Kebab, Burgers, Salads",
+    "menuDescription": "See our full menu with pizza, kebab, burgers and salads. Order online for pickup from Stora Sundby Gatukök.",
+    "orderTitle": "Order Online — Stora Sundby Gatukök",
+    "orderDescription": "Order pizza, kebab and burgers online for pickup from Stora Sundby Gatukök near Katrineholm.",
+    "contactTitle": "Contact & Hours — Stora Sundby Gatukök",
+    "contactDescription": "Find us in Stora Sundby. Opening hours, phone, address and directions. Serving Katrineholm, Eskilstuna, Kungsör and surrounding areas.",
+    "dailySpecialsTitle": "Daily Specials — Stora Sundby Gatukök",
+    "dailySpecialsDescription": "See today's lunch specials at Stora Sundby Gatukök. Fresh daily lunches with salad and drink included.",
+    "aboutTitle": "About Us — Stora Sundby Gatukök",
+    "aboutDescription": "Get to know Stora Sundby Gatukök — your local pizzeria in the heart of Södermanland, near Katrineholm and Eskilstuna."
+  }
+}
