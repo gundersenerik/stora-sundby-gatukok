@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import DietaryBadge from "@/components/ui/DietaryBadge";
+import MenuCardGrid from "./MenuCardGrid";
 import type { SeedMenuItem, SeedCategory } from "@/lib/seed-data";
 
 interface MenuTabsProps {
@@ -34,7 +34,7 @@ export default function MenuTabs({
         role="tablist"
         aria-label={locale === "sv" ? "Menykategorier" : "Menu categories"}
       >
-        <div className="max-w-3xl mx-auto px-4">
+        <div className="max-w-5xl mx-auto px-4">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide fade-edge-scroll -mx-1 px-1">
             {categories.map((cat) => {
               const isActive = cat.id === activeCategory;
@@ -63,10 +63,10 @@ export default function MenuTabs({
       <div
         id={`panel-${activeCategory}`}
         role="tabpanel"
-        className="max-w-3xl mx-auto px-4 py-8"
+        className="max-w-5xl mx-auto px-4 py-8"
       >
         {/* Category heading + description */}
-        <div className="mb-6">
+        <div className="mb-6 max-w-3xl">
           <h2 className="font-heading text-xl md:text-2xl text-espresso italic">
             {activeCat &&
               (locale === "sv" ? activeCat.title_sv : activeCat.title_en)}
@@ -76,52 +76,13 @@ export default function MenuTabs({
           )}
         </div>
 
-        {/* Menu items */}
-        <div className="space-y-0">
-          {activeItems.map((item) => (
-            <div key={item.id} className="py-2.5">
-              {/* Name row with dotted leader to price */}
-              <div className="flex items-baseline gap-1.5">
-                {item.number && (
-                  <span className="text-smoke/50 text-sm font-body tabular-nums shrink-0">
-                    {item.number}.
-                  </span>
-                )}
-                <span className="font-body font-semibold text-espresso whitespace-nowrap">
-                  {locale === "sv" ? item.name_sv : item.name_en}
-                </span>
-                {item.isPopular && (
-                  <span className="text-[10px] font-body font-medium bg-ember/10 text-ember px-1.5 py-0.5 rounded shrink-0">
-                    ★
-                  </span>
-                )}
-                {/* Dotted leader line */}
-                <span className="menu-dots" />
-                <span className="font-body font-semibold text-espresso tabular-nums whitespace-nowrap shrink-0">
-                  {item.price} kr
-                </span>
-              </div>
-
-              {/* Description + dietary badges */}
-              {(item.description_sv ||
-                item.description_en ||
-                item.dietary.length > 0) && (
-                <div className="mt-0.5 pl-0 sm:pl-5 flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                  {(item.description_sv || item.description_en) && (
-                    <p className="text-smoke text-sm font-body">
-                      {locale === "sv"
-                        ? item.description_sv
-                        : item.description_en}
-                    </p>
-                  )}
-                  {item.dietary.map((d) => (
-                    <DietaryBadge key={d} type={d} locale={locale} />
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        {/* Menu item cards — key forces remount to re-trigger entrance animations */}
+        <MenuCardGrid
+          key={activeCategory}
+          items={activeItems}
+          locale={locale}
+          popularLabel={popularLabel}
+        />
 
         {/* Item count hint */}
         <p className="text-smoke/40 text-xs font-body mt-6 text-center">

@@ -57,7 +57,7 @@ export default async function MenuPage({
       <MenuJsonLd sections={menuSections} />
 
       {/* Header area */}
-      <div className="max-w-3xl mx-auto px-4 pt-12 pb-6 text-center">
+      <div className="max-w-5xl mx-auto px-4 pt-12 pb-6 text-center">
         <h1 className="font-heading text-3xl md:text-4xl text-espresso italic mb-2">
           {t("title")}
         </h1>
@@ -77,7 +77,7 @@ export default async function MenuPage({
       />
 
       {/* Order CTA */}
-      <div className="max-w-3xl mx-auto px-4 pb-10">
+      <div className="max-w-5xl mx-auto px-4 pb-10">
         <div className="mt-12 text-center bg-espresso rounded-sm p-10 md:p-14">
           <h2 className="font-heading text-2xl md:text-3xl text-parchment italic mb-3">
             {locale === "sv" ? "Hungrig?" : "Hungry?"}

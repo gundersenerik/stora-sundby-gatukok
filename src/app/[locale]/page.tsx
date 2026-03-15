@@ -46,7 +46,11 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Home" });
 
-  const popularItems = menuItems.filter((item) => item.isPopular).slice(0, 3);
+  // Hand-picked to showcase variety: classic pizza, signature pizza, kebab
+  const showcaseIds = ["pizza-2-vesuvio", "pizza-39-stora-sundby", "kebabrulle"];
+  const popularItems = showcaseIds
+    .map((id) => menuItems.find((item) => item.id === id))
+    .filter(Boolean) as typeof menuItems;
 
   return (
     <main id="main-content">
@@ -148,8 +152,12 @@ export default async function HomePage({
 
           <div className="grid sm:grid-cols-3 gap-8 md:gap-12">
             {popularItems.map((item) => (
-              <div key={item.id} className="text-center">
-                <h3 className="font-heading text-lg text-espresso italic mb-2">
+              <a
+                key={item.id}
+                href={locale === "sv" ? "/meny" : "/en/menu"}
+                className="group text-center block p-6 -m-6 rounded-sm transition-all duration-200 hover:bg-parchment-dark hover:shadow-sm"
+              >
+                <h3 className="font-heading text-lg text-espresso italic mb-2 group-hover:text-ember transition-colors">
                   {locale === "sv" ? item.name_sv : item.name_en}
                 </h3>
                 <p className="text-smoke text-sm font-body mb-3 leading-relaxed">
@@ -165,7 +173,7 @@ export default async function HomePage({
                 <p className="font-body text-ember font-semibold tabular-nums">
                   {item.price} kr
                 </p>
-              </div>
+              </a>
             ))}
           </div>
 

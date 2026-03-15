@@ -117,25 +117,23 @@ export default async function ContactPage({
         </div>
 
         {/* Map */}
-        <div>
+        <div className="rounded-sm overflow-hidden border border-parchment-dark">
+          <iframe
+            src={`https://www.google.com/maps?q=${RESTAURANT.coordinates.latitude},${RESTAURANT.coordinates.longitude}&z=14&output=embed`}
+            className="w-full aspect-square md:aspect-auto md:h-full min-h-[300px] border-0"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title={locale === "sv" ? "Karta — Stora Sundby Gatukök" : "Map — Stora Sundby Gatukök"}
+          />
           <a
-            href={`https://www.google.com/maps/search/?api=1&query=${RESTAURANT.coordinates.latitude},${RESTAURANT.coordinates.longitude}`}
+            href={`https://www.google.com/maps/dir/?api=1&destination=${RESTAURANT.coordinates.latitude},${RESTAURANT.coordinates.longitude}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="block bg-parchment-dark rounded-sm overflow-hidden aspect-square md:aspect-auto md:h-full min-h-[300px] relative group hover:bg-parchment-dark/80 transition-colors"
+            className="flex items-center justify-center gap-2 py-3 bg-parchment-dark hover:bg-wheat/20 transition-colors text-sm font-body text-smoke hover:text-espresso"
           >
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-              <svg
-                className="w-10 h-10 text-smoke/30 mb-4 group-hover:text-ember transition-colors"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-              </svg>
-              <p className="font-heading text-sm italic text-smoke group-hover:text-espresso transition-colors">
-                {locale === "sv" ? "Öppna i Google Maps" : "Open in Google Maps"}
-              </p>
-            </div>
+            {t("getDirections")}
+            <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
