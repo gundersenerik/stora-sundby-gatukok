@@ -7,12 +7,16 @@ interface MenuCardGridProps {
   items: SeedMenuItem[];
   locale: string;
   popularLabel: string;
+  onAddToList?: (item: SeedMenuItem) => void;
+  listQuantities?: Record<string, number>;
 }
 
 export default function MenuCardGrid({
   items,
   locale,
   popularLabel,
+  onAddToList,
+  listQuantities = {},
 }: MenuCardGridProps) {
   // Detect if all items in this category are compact (no descriptions, no numbers, no dietary)
   const isCompactCategory = items.every(
@@ -37,6 +41,8 @@ export default function MenuCardGrid({
           locale={locale}
           popularLabel={popularLabel}
           animationDelay={Math.min(index * 30, 300)}
+          onAdd={onAddToList}
+          listQuantity={listQuantities[item.id] || 0}
         />
       ))}
     </div>

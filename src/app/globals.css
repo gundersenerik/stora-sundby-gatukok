@@ -249,6 +249,20 @@ a, button {
   animation: popoverFadeIn 0.2s ease both;
 }
 
+/* ── Order list slide up ── */
+@keyframes orderListSlideUp {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.order-list-slide-up {
+  animation: orderListSlideUp 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* ── Add-to-list button tap feedback ── */
+.add-to-list-btn:active {
+  transform: scale(0.85);
+}
+
 /* ── Respect reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .reveal-on-scroll {
@@ -278,6 +292,11 @@ a, button {
     animation: none !important;
     opacity: 1;
     transform: scale(1);
+  }
+  .order-list-slide-up {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
   }
   *,
   *::before,
