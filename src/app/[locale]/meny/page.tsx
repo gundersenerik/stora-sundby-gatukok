@@ -1,6 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, RESTAURANT } from "@/lib/constants";
 import { categories, menuItems } from "@/lib/seed-data";
 import { MenuJsonLd } from "@/components/seo/JsonLd";
 import MenuTabs from "@/components/menu/MenuTabs";
@@ -80,18 +80,21 @@ export default async function MenuPage({
       <div className="max-w-5xl mx-auto px-4 pb-10">
         <div className="mt-12 text-center bg-espresso rounded-sm p-10 md:p-14">
           <h2 className="font-heading text-2xl md:text-3xl text-parchment italic mb-3">
-            {locale === "sv" ? "Hungrig?" : "Hungry?"}
+            {locale === "sv" ? "Redo att beställa?" : "Ready to order?"}
           </h2>
           <p className="text-parchment/50 font-body text-sm mb-6">
             {locale === "sv"
-              ? "Beställ online för smidig avhämtning"
-              : "Order online for convenient pickup"}
+              ? "Markera det du vill ha med + knapparna ovan, ring oss sedan!"
+              : "Mark what you want with the + buttons above, then give us a call!"}
           </p>
           <a
-            href={locale === "sv" ? "/bestall" : "/en/order"}
-            className="btn-primary"
+            href={`tel:${RESTAURANT.phoneIntl}`}
+            className="btn-primary inline-flex items-center gap-2"
           >
-            {locale === "sv" ? "Beställ Online" : "Order Online"}
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            {RESTAURANT.phone}
           </a>
         </div>
       </div>

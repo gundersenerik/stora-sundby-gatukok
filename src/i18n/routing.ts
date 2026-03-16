@@ -10,10 +10,6 @@ export const routing = defineRouting({
       sv: "/meny",
       en: "/menu",
     },
-    "/bestall": {
-      sv: "/bestall",
-      en: "/order",
-    },
     "/kontakt": {
       sv: "/kontakt",
       en: "/contact",

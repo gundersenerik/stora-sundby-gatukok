@@ -11,7 +11,6 @@ const navItems = [
   { key: "home", sv: "/", en: "/en" },
   { key: "menu", sv: "/meny", en: "/en/menu" },
   { key: "dailySpecials", sv: "/dagens-lunch", en: "/en/daily-specials" },
-  { key: "order", sv: "/bestall", en: "/en/order" },
   { key: "contact", sv: "/kontakt", en: "/en/contact" },
   { key: "about", sv: "/om-oss", en: "/en/about" },
 ] as const;

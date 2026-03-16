@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "frame-src 'self' https://app.esorder.se https://www.google.com https://maps.google.com;",
+            value: "frame-src 'self' https://www.google.com https://maps.google.com;",
           },
         ],
       },
@@ -33,6 +33,17 @@ const nextConfig: NextConfig = {
       {
         source: "/menu",
         destination: "/meny",
+        permanent: true,
+      },
+      // Redirect old order page to menu
+      {
+        source: "/bestall",
+        destination: "/meny",
+        permanent: true,
+      },
+      {
+        source: "/en/order",
+        destination: "/en/menu",
         permanent: true,
       },
     ];

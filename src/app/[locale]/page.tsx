@@ -1,6 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, RESTAURANT } from "@/lib/constants";
 import { menuItems } from "@/lib/seed-data";
 import { RestaurantJsonLd } from "@/components/seo/JsonLd";
 import DietaryBadge from "@/components/ui/DietaryBadge";
@@ -92,16 +92,16 @@ export default async function HomePage({
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href={locale === "sv" ? "/bestall" : "/en/order"}
+              href={locale === "sv" ? "/meny" : "/en/menu"}
               className="btn-primary w-full sm:w-auto"
             >
-              {t("orderNow")}
+              {t("viewMenu")}
             </a>
             <a
-              href={locale === "sv" ? "/meny" : "/en/menu"}
+              href={`tel:${RESTAURANT.phoneIntl}`}
               className="btn-ghost w-full sm:w-auto"
             >
-              {t("viewMenu")}
+              {locale === "sv" ? "Ring & Beställ" : "Call & Order"}
             </a>
           </div>
         </div>
@@ -238,15 +238,23 @@ export default async function HomePage({
           </h2>
           <p className="font-body text-parchment/50 mb-8">
             {locale === "sv"
-              ? "Beställ online för smidig avhämtning"
-              : "Order online for convenient pickup"}
+              ? "Kolla menyn, markera det du vill ha och ring oss!"
+              : "Check the menu, mark what you want and give us a call!"}
           </p>
-          <a
-            href={locale === "sv" ? "/bestall" : "/en/order"}
-            className="btn-primary"
-          >
-            {t("orderNow")}
-          </a>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href={locale === "sv" ? "/meny" : "/en/menu"}
+              className="btn-primary"
+            >
+              {locale === "sv" ? "Se Menyn" : "View Menu"}
+            </a>
+            <a
+              href={`tel:${RESTAURANT.phoneIntl}`}
+              className="btn-ghost border-parchment/20 text-parchment/70 hover:text-parchment hover:border-parchment/40"
+            >
+              {RESTAURANT.phone}
+            </a>
+          </div>
         </div>
       </section>
     </main>
