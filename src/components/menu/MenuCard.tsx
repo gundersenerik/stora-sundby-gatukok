@@ -8,6 +8,8 @@ interface MenuCardProps {
   locale: string;
   animationDelay: number;
   popularLabel: string;
+  onAdd?: (item: SeedMenuItem) => void;
+  listQuantity?: number;
 }
 
 // ── Category accent colors (left border) ──
@@ -64,6 +66,8 @@ export default function MenuCard({
   locale,
   animationDelay,
   popularLabel,
+  onAdd,
+  listQuantity = 0,
 }: MenuCardProps) {
   const name = locale === "sv" ? item.name_sv : item.name_en;
   const description = locale === "sv" ? item.description_sv : item.description_en;
@@ -74,15 +78,30 @@ export default function MenuCard({
   if (isCompact) {
     return (
       <div
-        className={`menu-card menu-card-enter bg-white/50 border border-parchment-dark border-l-[3px] ${accent} rounded-sm px-4 py-3 flex items-center justify-between gap-3`}
+        className={`menu-card menu-card-enter bg-white/50 border border-parchment-dark border-l-[3px] ${accent} rounded-sm px-4 py-3 flex items-center justify-between gap-3 ${listQuantity > 0 ? "ring-1 ring-ember/30" : ""}`}
         style={{ animationDelay: `${animationDelay}ms` }}
       >
         <span className="font-body text-sm text-espresso">
           {name}
         </span>
-        <span className="font-body text-sm font-semibold text-ember tabular-nums whitespace-nowrap shrink-0">
-          {item.price} kr
-        </span>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="font-body text-sm font-semibold text-ember tabular-nums whitespace-nowrap">
+            {item.price} kr
+          </span>
+          {onAdd && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onAdd(item); }}
+              className="add-to-list-btn w-7 h-7 rounded-full bg-espresso/5 hover:bg-ember hover:text-white text-espresso/40 transition-all flex items-center justify-center shrink-0"
+              aria-label={locale === "sv" ? `Lägg till ${name}` : `Add ${name}`}
+            >
+              {listQuantity > 0 ? (
+                <span className="text-xs font-body font-bold tabular-nums text-ember">{listQuantity}</span>
+              ) : (
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>
+              )}
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -91,7 +110,7 @@ export default function MenuCard({
 
   return (
     <div
-      className={`menu-card menu-card-enter bg-white/50 border border-parchment-dark border-l-[3px] ${accent} rounded-sm p-4 md:p-5 flex flex-col`}
+      className={`menu-card menu-card-enter bg-white/50 border border-parchment-dark border-l-[3px] ${accent} rounded-sm p-4 md:p-5 flex flex-col ${listQuantity > 0 ? "ring-1 ring-ember/30" : ""}`}
       style={{ animationDelay: `${animationDelay}ms` }}
     >
       {/* Top row: number + name + popular badge */}
@@ -140,8 +159,23 @@ export default function MenuCard({
         </div>
       )}
 
-      {/* Price — anchored bottom */}
-      <div className="flex items-end justify-end mt-auto">
+      {/* Price + add button — anchored bottom */}
+      <div className="flex items-end justify-between mt-auto">
+        {onAdd ? (
+          <button
+            onClick={(e) => { e.stopPropagation(); onAdd(item); }}
+            className="add-to-list-btn w-8 h-8 rounded-full bg-espresso/5 hover:bg-ember hover:text-white text-espresso/40 transition-all flex items-center justify-center shrink-0"
+            aria-label={locale === "sv" ? `Lägg till ${name}` : `Add ${name}`}
+          >
+            {listQuantity > 0 ? (
+              <span className="text-xs font-body font-bold tabular-nums text-ember">{listQuantity}</span>
+            ) : (
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>
+            )}
+          </button>
+        ) : (
+          <div />
+        )}
         <span className="font-body font-semibold text-ember tabular-nums whitespace-nowrap">
           {item.price} kr
         </span>

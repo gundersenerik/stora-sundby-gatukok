@@ -1,9 +1,13 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import MenuCardGrid from "./MenuCardGrid";
 import MenuCard from "./MenuCard";
+import OrderListBar from "./OrderListBar";
+import type { OrderListEntry } from "./OrderListBar";
 import type { SeedMenuItem, SeedCategory } from "@/lib/seed-data";
+
+const STORAGE_KEY = "sundby-order-list";
 
 interface MenuTabsProps {
   categories: SeedCategory[];
@@ -26,6 +30,69 @@ export default function MenuTabs({
   const [isSpinning, setIsSpinning] = useState(false);
 
   const tabsNavRef = useRef<HTMLElement>(null);
+
+  // ── Order list (session-based) ──
+  const [orderList, setOrderList] = useState<OrderListEntry[]>([]);
+
+  // Hydrate from sessionStorage on mount
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const ids: { id: string; qty: number }[] = JSON.parse(stored);
+        const entries: OrderListEntry[] = [];
+        for (const { id, qty } of ids) {
+          const item = menuItems.find((m) => m.id === id);
+          if (item) entries.push({ item, quantity: qty });
+        }
+        if (entries.length > 0) setOrderList(entries);
+      }
+    } catch {
+      // ignore corrupt storage
+    }
+  }, [menuItems]);
+
+  // Persist to sessionStorage on change
+  useEffect(() => {
+    if (orderList.length === 0) {
+      sessionStorage.removeItem(STORAGE_KEY);
+    } else {
+      const slim = orderList.map((e) => ({ id: e.item.id, qty: e.quantity }));
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(slim));
+    }
+  }, [orderList]);
+
+  const addToList = useCallback((item: SeedMenuItem) => {
+    setOrderList((prev) => {
+      const existing = prev.find((e) => e.item.id === item.id);
+      if (existing) {
+        return prev.map((e) =>
+          e.item.id === item.id ? { ...e, quantity: e.quantity + 1 } : e
+        );
+      }
+      return [...prev, { item, quantity: 1 }];
+    });
+  }, []);
+
+  const updateQuantity = useCallback((itemId: string, delta: number) => {
+    setOrderList((prev) => {
+      return prev
+        .map((e) =>
+          e.item.id === itemId ? { ...e, quantity: e.quantity + delta } : e
+        )
+        .filter((e) => e.quantity > 0);
+    });
+  }, []);
+
+  const clearList = useCallback(() => {
+    setOrderList([]);
+  }, []);
+
+  // Build a quick-lookup map of item quantities for the cards
+  const listQuantities: Record<string, number> = {};
+  for (const entry of orderList) {
+    listQuantities[entry.item.id] = entry.quantity;
+  }
 
   const activeItems = menuItems.filter(
     (item) => item.category === activeCategory
@@ -148,6 +215,8 @@ export default function MenuTabs({
                 locale={locale}
                 animationDelay={0}
                 popularLabel={popularLabel}
+                onAdd={addToList}
+                listQuantity={listQuantities[randomPick.id] || 0}
               />
             </div>
 
@@ -213,6 +282,8 @@ export default function MenuTabs({
           items={activeItems}
           locale={locale}
           popularLabel={popularLabel}
+          onAddToList={addToList}
+          listQuantities={listQuantities}
         />
 
         {/* Item count hint */}
@@ -270,7 +341,18 @@ export default function MenuTabs({
             )}
           </div>
         </div>
+
+        {/* Spacer when order list bar is visible */}
+        {orderList.length > 0 && <div className="h-14" />}
       </div>
+
+      {/* Floating order list bar */}
+      <OrderListBar
+        entries={orderList}
+        locale={locale}
+        onUpdateQuantity={updateQuantity}
+        onClear={clearList}
+      />
     </div>
   );
 }
